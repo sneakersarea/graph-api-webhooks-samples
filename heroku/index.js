@@ -58,4 +58,27 @@ app.post('/facebook', function (req, res) {
   res.sendStatus(200);
 });
 
+var token = "EAABZCL3Ywa7EBANAuLaWZAd6imusbtbCYNgEXIsHQSFovS0iUa8cMZB8CcfmDcR4kBMDbg5WTOyDAgoYLYBH6EDMeefz36gnPwt0quaZBIJ8antsTlc6qLnHUpSxFtSxshLW9YhfluTau0NsYTmjZAk06ZC6ZB5FDZBT195qrJiB2C9yYh6hMS5V";
+
+function sendTextMessage(sender, text) {
+  messageData = {
+    text:text
+  }
+  request({
+    url: 'https://graph.facebook.com/v2.6/me/messages',
+    qs: {access_token:token},
+    method: 'POST',
+    json: {
+      recipient: {id:sender},
+      message: messageData,
+    }
+  }, function(error, response, body) {
+    if (error) {
+      console.log('Error sending message: ', error);
+    } else if (response.body.error) {
+      console.log('Error: ', response.body.error);
+    }
+  });
+}
+
 app.listen();
